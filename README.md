@@ -1,6 +1,8 @@
-# Gotham Crime Management API
+# Gotham Crime Management API 🦇
 
-A modern, fast, and scalable crime management API built with [Robyn](https://robyn.tech/) and PostgreSQL. This API provides endpoints for managing crime records in Gotham City, with features like pagination, filtering, and geolocation support.
+Demo API built with [Robyn](https://robyn.tech/).
+
+This API provides endpoints for managing crime records in Gotham City. 👮
 
 ## Features
 
@@ -30,7 +32,7 @@ cd gotham
 
 2. Install [`uv`](https://docs.astral.sh/uv/)
 ```bash
-bres install uv
+brew install uv
 ```
 
 3. Install dependencies:

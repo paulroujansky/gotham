@@ -4,26 +4,21 @@ It defines functions for creating, reading, updating, and deleting crimes in the
 Business logic should be handled in the service layer.
 """
 
+from pathlib import Path
 from typing import List, Optional
 
 import psycopg2
-import os
 
 from gotham.core.models import Crime
+from gotham.utils import load_sql_file
+from gotham.config import settings
 
-SQL_DIR = os.path.join(os.path.dirname(__file__), "..", "sql", "crimes")
-
-
-def load_sql(filename: str) -> str:
-    with open(os.path.join(SQL_DIR, filename), "r") as f:
-        return f.read()
-
-
-SELECT_BY_ID_SQL = load_sql("select_by_id.sql")
-SELECT_ALL_SQL = load_sql("select_all.sql")
-INSERT_SQL = load_sql("insert.sql")
-UPDATE_SQL = load_sql("update.sql")
-DELETE_SQL = load_sql("delete.sql")
+# Load SQL files
+SELECT_BY_ID_SQL = load_sql_file(Path(settings.SQL_DIR) / "crimes" / "select_by_id.sql")
+SELECT_ALL_SQL = load_sql_file(Path(settings.SQL_DIR) / "crimes" / "select_all.sql")
+INSERT_SQL = load_sql_file(Path(settings.SQL_DIR) / "crimes" / "insert.sql")
+UPDATE_SQL = load_sql_file(Path(settings.SQL_DIR) / "crimes" / "update.sql")
+DELETE_SQL = load_sql_file(Path(settings.SQL_DIR) / "crimes" / "delete.sql")
 
 
 def get_crime(conn: psycopg2.extensions.connection, crime_id: int) -> Optional[Crime]:

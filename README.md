@@ -16,6 +16,21 @@ This API provides endpoints for managing crime records in Gotham City. 👮
 - Type-safe request/response handling
 - Comprehensive error handling
 
+## Project Structure
+
+The project is organized for clarity, modularity, and ease of maintenance. Here's an overview of the main directories and their responsibilities:
+
+```
+src/gotham/
+├── api/         # HTTP routes, request/response logic
+├── core/        # Domain models, core business logic, CRUD
+├── services/    # Service layer (business orchestration, validation)
+├── db/          # Database connection, migrations
+├── sql/         # Raw SQL queries, organized by domain (e.g., crimes/)
+├── utils/       # Utilities/helpers
+└── config.py    # App configuration
+```
+
 ## Requirements
 
 - Python 3.11 or higher
@@ -45,15 +60,23 @@ uv sync
 cp .env.example .env
 ```
 
-## Docker Deployment
+## Quickstart
 
-1. Build and start the containers:
+Get up and running quickly with [Docker](https://www.docker.com/):
+
 ```bash
+# Clone the repository
+git clone https://github.com/paulroujansky/gotham.git
+cd gotham
+
+# Copy environment variables template and adjust as needed
+cp .env.example .env
+
+# Build and start the containers
 docker-compose up --build
 ```
-
-2. Access the API at `http://0.0.0.0:8080`
-3. Access the API documentation at `http://0.0.0.0:8080/docs`
+- API available at: http://0.0.0.0:8080
+- API docs: http://0.0.0.0:8080/docs
 
 ## API Endpoints
 
@@ -67,7 +90,7 @@ Query Parameters:
 ### GET /crimes/:crime_id
 Get a specific crime by ID.
 
-### PUT /crimes
+### POST /crimes
 Add a new crime.
 
 Request Body:

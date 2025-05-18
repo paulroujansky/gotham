@@ -22,6 +22,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "ruff>=0.11.10",
+    "sqlfluff>=3.4.0",
 ]
 
 [project.urls]
@@ -38,3 +39,22 @@ ignore = []
 
 [tool.ruff.per-file-ignores]
 "src/gotham/core/crud.py" = ["E501"]  # E501 is the code for line too long
+
+[tool.sqlfluff.core]
+dialect = "postgres"
+templater = "placeholder"
+exclude_rules = ["layout.long_lines"]
+max_line_length = 120
+
+[tool.sqlfluff.templater.placeholder]
+param_style = "pyformat"
+limit = "10"
+skip = "0"
+crime_id = "1"
+type = "'robbery'"
+description = "'Bank robbery'"
+location = "'Gotham Bank'"
+suspect_name = "'Joker'"
+date_time = "'2024-03-20T15:30:00Z'"
+latitude = "40.7128"
+longitude = "-74.0060"

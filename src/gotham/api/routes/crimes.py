@@ -9,7 +9,7 @@ from robyn import Request, SubRouter
 from gotham.api.responses import error_response, json_response
 from gotham.core import crud
 from gotham.core.models import Crime, CrimeBody
-from gotham.db.database import get_db_connection
+from gotham.services import crime_service
 
 crime_router = SubRouter(__file__, prefix="/crimes")
 
@@ -28,8 +28,7 @@ async def get_crimes(request: Request):
     skip = int(request.query_params.get("skip", "0"))
     limit = int(request.query_params.get("limit", "100"))
 
-    with get_db_connection() as conn:
-        crimes = crud.get_crimes(conn, skip=skip, limit=limit)
+    crimes = crime_service.list_crimes(skip=skip, limit=limit)
 
     return json_response({"crimes": [crime.to_dict() for crime in crimes]})
 
@@ -47,8 +46,7 @@ async def get_crime(request: Request):
     """
     crime_id = int(request.path_params.get("crime_id"))
 
-    with get_db_connection() as conn:
-        crime = crud.get_crime(conn, crime_id)
+    crime = crime_service.get_crime_by_id(crime_id)
 
     if crime is None:
         return error_response("Crime not found", 404)
@@ -71,8 +69,7 @@ async def add_crime(request: Request, body: CrimeBody):
     crime_data = json.loads(body)
     crime = Crime(**crime_data)
 
-    with get_db_connection() as conn:
-        crime = crud.create_crime(conn, crime)
+    crime = crime_service.create_crime_service(crime)
 
     return json_response(
         {"message": "Crime added successfully", "crime": crime.to_dict()}, status=201
@@ -95,8 +92,7 @@ async def update_crime(request: Request, body: CrimeBody):
     crime_data = json.loads(body)
     crime = Crime(**crime_data)
 
-    with get_db_connection() as conn:
-        updated_crime = crud.update_crime(conn, crime_id, crime)
+    updated_crime = crime_service.update_crime_service(crime_id, crime)
 
     if updated_crime is None:
         return error_response("Crime not found", 404)
@@ -118,8 +114,7 @@ async def delete_crime(request: Request):
         Message indicating the crime was deleted
     """
     crime_id = int(request.path_params.get("crime_id"))
-    with get_db_connection() as conn:
-        success = crud.delete_crime(conn, crime_id)
+    success = crime_service.delete_crime_service(crime_id)
 
     if not success:
         return error_response("Crime not found", 404)

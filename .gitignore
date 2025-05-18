@@ -47,3 +47,6 @@ logs/
 # Docker
 .docker/
 docker-compose.override.yml 
+
+# Cursor
+.cursor

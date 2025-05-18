@@ -56,7 +56,7 @@ async def get_crime(request: Request):
     return json_response(crime.to_dict())
 
 
-@crime_router.put("/")
+@crime_router.post("/")
 async def add_crime(request: Request, body: CrimeBody):
     """
     Add a new crime.
